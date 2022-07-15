@@ -1,10 +1,98 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import { onMounted, ref } from "vue";
 import Item from '../components/Item.vue'
 import Formulario from '../components/Formulario.vue'
 import Tzeet from '../components/Tzeet.vue'
 import Seguidor from '../components/Seguidor.vue'
+
+onMounted(() => {
+const textareaValue = document.querySelector('#textarea');
+const contador = document.querySelector('#contador');
+const buttonPost = document.querySelector('#buttonPost');
+const contadorMax = 140;
+
+const textareaValuemd = document.querySelector('#textareamd');
+const contadormd = document.querySelector('#contadormd');
+const buttonPostmd = document.querySelector('#buttonPostmd');
+
+const fechar = document.getElementById('fechar');
+const popuptzeet = document.getElementById('tzeet');
+const modal = document.getElementById('modal');
+
+textareaValuemd.addEventListener('keyup', (e) => {
+    let contadorAtual = contadorMax - e.target.value.length;
+    contadormd.innerHTML = contadorAtual;
+    if (contadorAtual == contadorMax) {
+        contadormd.innerHTML = ""
+    }
+    VerificacaoCor(contadorAtual)
+})
+
+textareaValuemd.onkeyup = function() {
+    console.log("oi");
+
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
+}
+
+function VerificacaoCor(contadorAtual) {
+    if (contadorAtual <= 40 && contadorAtual > 0) {
+        contadormd.style.color = "rgb(255,200,0)"
+        buttonPostmd.removeAttribute("disabled")
+    } else if (contadorAtual == 0) {
+        contadormd.style.color = "rgb(255,0,0)"
+        buttonPostmd.removeAttribute("disabled")
+    } else if (contadorAtual < 0) {
+        contadormd.style.color = "rgb(255,0,0)"
+        buttonPostmd.setAttribute("disabled", true)
+    } else if (contadorAtual > 40) {
+        contadormd.style.color = "black"
+        buttonPostmd.removeAttribute("disabled")
+    }
+}
+
+// modal
+
+textareaValue.addEventListener('keyup', (e) => {
+    let contadorAtual = contadorMax - e.target.value.length;
+    contador.innerHTML = contadorAtual;
+    if (contadorAtual == contadorMax) {
+        contador.innerHTML = ""
+    }
+    VerificacaoCor(contadorAtual)
+})
+
+function VerificacaoCor(contadorAtual) {
+    if (contadorAtual <= 40 && contadorAtual > 0) {
+        contador.style.color = "rgb(255,200,0)"
+        buttonPost.removeAttribute("disabled")
+    } else if (contadorAtual == 0) {
+        contador.style.color = "rgb(255,0,0)"
+        buttonPost.removeAttribute("disabled")
+    } else if (contadorAtual < 0) {
+        contador.style.color = "rgb(255,0,0)"
+        buttonPost.setAttribute("disabled", true)
+    } else if (contadorAtual > 40) {
+        contador.style.color = "black"
+        buttonPost.removeAttribute("disabled")
+    }
+}
+
+textareaValue.onkeyup = function() {
+    console.log("oi");
+
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
+}
+
+popuptzeet.onclick = function() {
+    modal.style.display = "block";
+}
+
+fechar.onclick = function() {
+    modal.style.display = "none";
+}
+});
 </script>
 
 <template>
@@ -14,7 +102,7 @@ import Seguidor from '../components/Seguidor.vue'
                 <div id="navegacao">
                     <ul id="navegacao">
                         <li class="p-3 d-flex justify-content-center align-self-left">
-                            <img src="./assets/tiziu.png" alt="">
+                            <img src="../assets/tiziu.png" alt="">
                         </li>
 
                         <Item nome="Home" icone="bi bi-house-door" path="/"/>
@@ -41,7 +129,7 @@ import Seguidor from '../components/Seguidor.vue'
               <h3>Home</h3>
               <div class="row">
                     <div id="image" class="col-xxl-1 col-xl-2 col-lg-2 col-md-3 col-sm-3 d-flex justify-content-end align-items-center pb-5">
-                        <img src="./assets/pablo.jpg" class="rounded-circle" >
+                        <img src="../assets/pablo.jpg" class="rounded-circle" >
                     </div>
                     <div class="col-xxl col-xl col-md col-sm d-flex justify-content-end aling-self-end flex-column mt-5">
 
@@ -53,14 +141,14 @@ import Seguidor from '../components/Seguidor.vue'
                                         <button type="button" id="fechar" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <Formulario />
+                                        <Formulario textarea="textareamd" contador="contadormd" butao="buttonPostmd"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="d-flex" style="flex-direction: column; padding: 5px">
-                           <Formulario />
+                           <Formulario textarea="textarea" contador="contador" butao="buttonPost"/>
                         </div>
 
                     </div>

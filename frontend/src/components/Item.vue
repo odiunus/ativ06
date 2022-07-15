@@ -17,5 +17,7 @@ defineProps({
 </template>
 
 <style>
-/* procurar css e colocar aq */
+a{
+  width: fit-content !important;
+}
 </style>

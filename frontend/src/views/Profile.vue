@@ -1,10 +1,59 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Item from '../components/Item.vue'
 import Formulario from '../components/Formulario.vue'
 import Tzeet from '../components/Tzeet.vue'
 import Seguidor from '../components/Seguidor.vue'
+import { onMounted } from 'vue';
+
+onMounted(() => {
+const textareaValue = document.querySelector('#textarea');
+const contador = document.querySelector('#contador');
+const buttonPost = document.querySelector('#buttonPost');
+const contadorMax = 140;
+const fechar = document.getElementById('fechar');
+const popuptzeet = document.getElementById('tzeet');
+const modal = document.getElementById('modal');
+
+textareaValue.addEventListener('keyup', (e) => {
+    let contadorAtual = contadorMax - e.target.value.length;
+    contador.innerHTML = contadorAtual;
+    if (contadorAtual == contadorMax) {
+        contador.innerHTML = ""
+    }
+    VerificacaoCor(contadorAtual)
+})
+
+function VerificacaoCor(contadorAtual) {
+    if (contadorAtual <= 40 && contadorAtual > 0) {
+        contador.style.color = "rgb(255,200,0)"
+        buttonPost.removeAttribute("disabled")
+    } else if (contadorAtual == 0) {
+        contador.style.color = "rgb(255,0,0)"
+        buttonPost.removeAttribute("disabled")
+    } else if (contadorAtual < 0) {
+        contador.style.color = "rgb(255,0,0)"
+        buttonPost.setAttribute("disabled", true)
+    } else if (contadorAtual > 40) {
+        contador.style.color = "black"
+        buttonPost.removeAttribute("disabled")
+    }
+}
+
+textareaValue.onkeyup = function() {
+    console.log("oi");
+
+    this.style.height = "auto";
+    this.style.height = (this.scrollHeight) + "px";
+}
+
+popuptzeet.onclick = function() {
+    modal.style.display = "block";
+}
+
+fechar.onclick = function() {
+    modal.style.display = "none";
+}
+})
 </script>
 
 <template>
@@ -14,7 +63,7 @@ import Seguidor from '../components/Seguidor.vue'
                 <div id="navegacao">
                     <ul id="navegacao">
                         <li class="p-3 d-flex justify-content-center align-self-left">
-                            <img src="./assets/tiziu.png" alt="">
+                            <img src="../assets/tiziu.png" alt="">
                         </li>
 
                         <Item nome="Home" icone="bi bi-house-door" path="/"/>
@@ -46,7 +95,7 @@ import Seguidor from '../components/Seguidor.vue'
                                         <button type="button" id="fechar" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <Formulario />
+                                        <Formulario textarea="textarea" contador="contador" butao="buttonPost"/>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +103,7 @@ import Seguidor from '../components/Seguidor.vue'
 
               <div class="row">
                   <div id="image" class="col-xl-4 col-sm-4 col-md-4 col-lg-4">
-                        <img src="./LávemoPablo (1).jpg " class="rounded-circle" height="150" width="150">
+                        <img src="../assets/pablo.jpg " class="rounded-circle" height="150" width="150">
                   </div>
                   <div class="col-xl col-md col-sm d-flex justify-content-end aling-self-end">
                     <button class="w-auto p-0 btn-custon d-block col-3 d-sm-block d-md-block
